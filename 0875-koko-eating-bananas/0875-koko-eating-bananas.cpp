@@ -1,26 +1,52 @@
 class Solution {
 public:
     int minEatingSpeed(vector<int>& piles, int h) {
-        int left = 1;
-        int right = *max_element(piles.begin(), piles.end());
-        int ans = right;
-        
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            
-            long long hours = 0;
-            for (int p : piles) {
-                hours += (p + mid - 1) / mid; // ceil(p/mid)
+        int maxPile = *max_element(piles.begin(), piles.end());
+         int minPile = 0; //*min_element(piles.begin(), piles.end());
+         int mid;
+         int size = piles.size();
+       
+         int count = 0 ;
+         int ans=0;
+         if(size==1){
+            int l = piles[0]/h;
+            if(piles[0]%h == 0){
+                return l;
             }
-            
-            if (hours <= h) {
+            else{
+                return l+1;
+            }
+         }
+         while(minPile <= maxPile){
+            mid = minPile + (maxPile- minPile)/2;
+            count = 0 ;
+            for(int i=0 ; i <size;i++){
+                if( piles[i]>mid ){
+                     if(mid < 1){
+                    return ans;
+                }
+                    int k = piles[i]/mid;
+                    count = count + k;
+                    if(piles[i]%mid == 0){
+                        count--;
+                    }
+                } 
+            }
+            count = count + size;
+            cout<<count<<" ";
+            cout<<" "<<mid<<" ";
+            if (count <= h){
+                
                 ans = mid;
-                right = mid - 1; // try smaller speed
-            } else {
-                left = mid + 1; // need faster speed
+                if(mid < 1){
+                    return ans;
+                }
+                maxPile = mid -1;
             }
-        }
-        
-        return ans;
+            else {
+                minPile = mid + 1;
+            }
+         }
+         return ans;
     }
 };
