@@ -1,49 +1,41 @@
-// class Solution {
-// public:
-//     int minDays(vector<int>& bloomDay, int m, int k) {
-        
-//     }
-// };
 class Solution {
+
 public:
-    bool canMake(vector<int>& bloomDay, int m, int k, int day) {
-        int bouquets = 0;
-        int count = 0;
-
-        for (int i = 0; i < bloomDay.size(); i++) {
-            if (bloomDay[i] <= day) {
-                count++;
-                if (count == k) {
-                    bouquets++;
-                    count = 0;
-                }
-            } else {
-                count = 0;
-            }
-        }
-
-        return bouquets >= m;
-    }
-
     int minDays(vector<int>& bloomDay, int m, int k) {
-        long long n = bloomDay.size();
-        
-        // Not enough flowers
-        if (n < (long long)m * k) return -1;
-
-        int left = *min_element(bloomDay.begin(), bloomDay.end());
-        int right = *max_element(bloomDay.begin(), bloomDay.end());
-
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-
-            if (canMake(bloomDay, m, k, mid)) {
-                right = mid - 1;  // try smaller day
-            } else {
-                left = mid + 1;   // need more days
-            }
+        int max = *max_element(bloomDay.begin(), bloomDay.end());
+        int min = *min_element(bloomDay.begin(),bloomDay.end());
+        int count =0;
+        int ans = -1;
+        int size = bloomDay.size();
+        int mid;
+       
+        while(min <= max){
+             mid = min +(max - min)/2;
+             count = 0 ;
+              int l = k;
+             for(int i = 0 ; i < size; i++){
+                if(bloomDay[i]<=mid){
+                    l--;
+                   
+                    if(l==0){
+                        count++;
+                        l=k;
+                    }
+                }
+                else{
+                    l = k;
+                }
+                
+             }
+              
+              if(count >= m){
+                  ans = mid;
+                  max = mid-1;
+              }
+              else {
+                min = mid+1;
+              }
         }
-
-        return left;
+        return ans;
     }
 };
