@@ -6,7 +6,7 @@ public:
          int mid;
          int size = piles.size();
        
-         long long count = 0;
+         double count = 0;
          int ans=0;
         
          while(minPile <= maxPile){
