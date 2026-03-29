@@ -34,7 +34,6 @@ public:
                         }
                 }
             }
-            cout<<" "<<count<<"x"<<mid<<" ";
             if (count <= days) {
                 ans = mid;
                 max = mid - 1;
